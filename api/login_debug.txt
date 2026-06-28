@@ -1,5 +1,0 @@
-RECEIVED FROM APP: {"email":"jy@jy.com","password":"11111"}
-RECEIVED FROM APP: {"user_email":"jy@jy.com","user_password":"11111"}
-RECEIVED FROM APP: {"user_email":"jy@jy.com","user_password":"11111"}
-RECEIVED FROM APP: {"user_email":"jy@jy.com","user_password":"11111"}
-RECEIVED FROM APP: {"user_email":"jy@gmail.com","user_password":"11111"}
