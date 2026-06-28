@@ -4,7 +4,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Content-Type: application/json");
 
-// Handle pre-flight OPTIONS request
+
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
     http_response_code(200);
     exit;
@@ -13,11 +13,11 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 date_default_timezone_set('Asia/Kuala_Lumpur');
 require_once "connection.php";
 
-// Get raw POST data
+
 $input = file_get_contents("php://input");
 $data = json_decode($input, true);
 
-// 1. Strict validation 
+// validation 
 if (empty($data["user_name"]) || empty($data["user_email"]) || empty($data["user_password"])) {
     echo json_encode(["status" => "error", "message" => "All fields are required"]);
     exit;
@@ -36,18 +36,18 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Optional: Validate phone format if provided
+// Validate phone format if provided
 if (!empty($phone) && !preg_match('/^[0-9+\-\s]{8,20}$/', $phone)) {
     echo json_encode(["status" => "error", "message" => "Invalid phone number format"]);
     exit;
 }
 
-// 2. Security: Hash the password
+//Security: Hash the password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 $createdAt = date('Y-m-d H:i:s');
 
 try {
-    // 3. Check for duplicates
+    //Check for duplicates
     $stmt = $db->prepare("SELECT user_id FROM users WHERE user_email = ? LIMIT 1");
     $stmt->execute([$email]);
 
@@ -56,7 +56,7 @@ try {
         exit;
     }
 
-    // 4. Insert user (Removed transaction to avoid file locks)
+    //Insert user
     $insert = $db->prepare("
         INSERT INTO users (user_name, user_email, user_phone, user_password, user_date, user_role)
         VALUES (?, ?, ?, ?, ?, ?)

@@ -10,7 +10,7 @@ require_once "connection.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-// 1. Validation
+// Validation
 if (empty($data["user_email"]) || empty($data["user_password"])) {
     echo json_encode([
         "status" => "error",
@@ -23,12 +23,12 @@ $email = trim($data["user_email"]);
 $password = $data["user_password"];
 
 try {
-    // 2. Query based on  users table schema
+    //Query based on  users table schema
     $stmt = $db->prepare("SELECT * FROM users WHERE user_email = ? LIMIT 1");
     $stmt->execute([$email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // 3. Verify password
+    //Verify password
     if (!$user || !password_verify($password, $user["user_password"])) {
         echo json_encode([
             "status" => "error",
@@ -37,7 +37,7 @@ try {
         exit;
     }
 
-    // 4. Clean user object (remove sensitive data)
+    // Clean user object (remove sensitive data)
     unset($user["user_password"]);
 
     echo json_encode([

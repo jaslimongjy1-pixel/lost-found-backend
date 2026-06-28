@@ -1,7 +1,5 @@
 <?php
-
-
-// Pointing this to the 'database' folder 
+// Pointing to the 'database' folder 
 $db_file = __DIR__ . "/../database/lostfound.db";
 
 try {
@@ -10,7 +8,7 @@ try {
     
     $db->exec('PRAGMA busy_timeout = 5000;');
 
-    // 1. Automatically create the 'users' table if it doesn't exist
+    //Automatically create the 'users' table if it doesn't exist
     $db->exec("
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -23,7 +21,7 @@ try {
         )
     ");
 
-    // 2. Automatically create the 'reports' table if it doesn't exist
+    //Automatically create the 'reports' table if it doesn't exist
     $db->exec("
         CREATE TABLE IF NOT EXISTS reports (
             report_id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -15,7 +15,7 @@ try {
     $db = new PDO("sqlite:" . $dbFile);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // BILINGUAL INPUT READER: Supports JSON and Form Data
+    //Supports JSON and Form Data
     $rawInput = file_get_contents('php://input');
     $data = json_decode($rawInput, true);
 

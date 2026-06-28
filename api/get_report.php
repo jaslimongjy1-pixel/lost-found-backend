@@ -12,7 +12,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? "") === "OPTIONS") {
 require_once "connection.php";
 
 try {
-    // 1. Get Pagination and Filter Parameters
+    // Get Pagination and Filter Parameters
     $page = max(1, (int) ($_GET["page"] ?? 1));
     $limit = max(1, min(100, (int) ($_GET["limit"] ?? 10)));
     $search = trim($_GET["search"] ?? "");
@@ -21,13 +21,13 @@ try {
     $whereClauses = [];
     $params = [];
 
-    // 2. Build Search Query
+    //Build Search Query
     if ($search !== "") {
         $whereClauses[] = "(report_title LIKE :search OR report_description LIKE :search OR report_location LIKE :search)";
         $params[":search"] = "%" . $search . "%";
     }
 
-    // 3. Build Category Filter (Lost/Found/All)
+    //Build Category Filter (Lost/Found/All)
     if ($category !== "" && strcasecmp($category, "All") !== 0) {
         $whereClauses[] = "report_category = :category";
         $params[":category"] = $category;
@@ -35,7 +35,7 @@ try {
 
     $whereSql = empty($whereClauses) ? "" : " WHERE " . implode(" AND ", $whereClauses);
 
-    // 4. Get Total Count (Required for Frontend Pagination)
+    //Get Total Count (Required for Frontend Pagination)
     $countStmt = $db->prepare("SELECT COUNT(*) FROM reports" . $whereSql);
     foreach ($params as $key => $value) {
         $countStmt->bindValue($key, $value, PDO::PARAM_STR);
@@ -50,7 +50,7 @@ try {
 
     $offset = ($page - 1) * $limit;
 
-    // 5. Fetch Data
+    //Fetch Data
     $stmt = $db->prepare("
         SELECT report_id, user_id, report_type, report_title, report_description, 
                report_category, report_location, report_status, report_image, report_date

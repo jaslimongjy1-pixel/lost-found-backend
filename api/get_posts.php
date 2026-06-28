@@ -10,12 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 }
 
 require_once "connection.php";
-
-// 1. Read the raw JSON from the Flutter request
 $jsonInput = file_get_contents('php://input');
 $data = json_decode($jsonInput, true);
-
-// 2. Extract values from the decoded JSON, NOT from $_POST
 $userId = isset($data['user_id']) ? intval($data['user_id']) : null;
 $userRole = isset($data['user_role']) ? strtolower(trim($data['user_role'])) : '';
 
@@ -24,8 +20,6 @@ if ($userId === null) {
     echo json_encode(["status" => "error", "message" => "User ID is required. Received: " . $jsonInput]);
     exit;
 }
-
-// ... rest of your code remains the same ...
 
 try {
     if ($userRole === 'admin' || $userRole === 'lecturer') {
